@@ -21,7 +21,7 @@ public class CanvasComponent extends JComponent implements MouseListener, MouseM
     private int gutterX = 10;
     private int gutterY = 10;
     private Timer animationTimer;
-    private int motionSpeed = -1;
+    private int motionSpeed = 1;
   
   public CanvasComponent(int positionX, int positionY, int shapeHeight, int shapeWidth, int frameWidth, int frameHeight)
   {
@@ -98,35 +98,57 @@ public class CanvasComponent extends JComponent implements MouseListener, MouseM
             animationDeltaX = 0;
             animationDeltaY = 1;
             x = (int)(componentSizeDimension.getWidth()) - width - gutterX;
-            y = y + animationDeltaY;
+            y = y + animationDeltaY * motionSpeed;
         }
         else if(y + height + gutterY > componentSizeDimension.getHeight())
         {
             animationDeltaX = -1;
             animationDeltaY = 0;
             y = (int)(componentSizeDimension.getHeight()) - height - gutterY;
-            x = x + animationDeltaX; 
+            x = x + animationDeltaX * motionSpeed; 
         }
         else if(x < gutterX)
         {
             animationDeltaX = 0
             animationDeltaY = -1;
             x = gutterX;
-            y = y + animationDeltaY;
+            y = y + animationDeltaY * motionSpeed;
         }
         else if(y < gutterY)
         {
             animationDeltaX = 1;
             animationDeltaY = 0;
             y = gutterY;
-            x = x + animationDeltaX;
+            x = x + animationDeltaX * motionSpeed;
         }
         else
         {
-            x = x + animationDeltaX;
-            y = y + animationDeltaY;
+            x = x + animationDeltaX * motionSpeed;
+            y = y + animationDeltaY * motionSpeed;
         }
         
         repaint();
+  }
+  
+  public void keyTyped(KeyEvent e)
+  {
+  }
+  
+  public void keyPressed(KeyEvent e)
+  {
+  }
+  
+  public void keyReleased(KeyEvent e)
+  {
+        char keyChar = e.getKeyChar();
+        if(keyChar == '+')
+        {
+            motionSpeed++;
+        }
+        
+        if(keyChar == '-' && motionSpeed > 0)
+        {
+            motionSpeed--;
+        }
   }
 }
